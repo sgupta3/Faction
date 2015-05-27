@@ -14,6 +14,7 @@
 		341BEF4A1B163674006FB372 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 341BEF491B163674006FB372 /* Images.xcassets */; };
 		341BEF4D1B163674006FB372 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341BEF4B1B163674006FB372 /* LaunchScreen.xib */; };
 		341BEF591B163674006FB372 /* FactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BEF581B163674006FB372 /* FactionTests.m */; };
+		341BEF631B164DB4006FB372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BEF621B164DB4006FB372 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		341BEF521B163674006FB372 /* FactionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FactionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		341BEF571B163674006FB372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		341BEF581B163674006FB372 /* FactionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactionTests.m; sourceTree = "<group>"; };
+		341BEF621B164DB4006FB372 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				341BEF631B164DB4006FB372 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		341BEF301B163674006FB372 = {
 			isa = PBXGroup;
 			children = (
+				341BEF621B164DB4006FB372 /* AVFoundation.framework */,
 				341BEF3B1B163674006FB372 /* Faction */,
 				341BEF551B163674006FB372 /* FactionTests */,
 				341BEF3A1B163674006FB372 /* Products */,
