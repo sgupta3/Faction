@@ -27,14 +27,23 @@ AVCaptureStillImageOutput *stillImageOutput;
     session = [[AVCaptureSession alloc] init]; //Backend of the video streaming
     [session setSessionPreset:AVCaptureSessionPresetPhoto];
     
-    //AVCaptureDevice *inputDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo]; //Setting backfacing camera as input device
-    AVCaptureDevice *inputDevice = [self frontFacingCameraIfAvailable]; //setting front camera if available, else back camera.
+    AVCaptureDevice *inputDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo]; //Setting backfacing camera as input device
+    //AVCaptureDevice *inputDevice = [self frontFacingCameraIfAvailable]; //setting front camera if available, else back camera.
     NSError *error;
     AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:&error]; //For phone to recogonize the input device
     
     if([session canAddInput:deviceInput]){
         [session addInput:deviceInput];
     }
+    
+    if ([inputDevice isFocusModeSupported:AVCaptureFocusModeLocked]) {
+        NSError *error = nil;
+        if ([inputDevice lockForConfiguration:&error]) {
+            inputDevice.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+            [inputDevice unlockForConfiguration];
+        }
+    }
+    
     
     AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session]; //Live feed of the camera - filling the frame
     [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
