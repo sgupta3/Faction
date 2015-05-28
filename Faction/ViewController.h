@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIView *frameForCapture;
+@interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-- (IBAction)takePhoto:(id)sender;
+- (IBAction)takePhoto:(UIButton *)sender;
 
 @end
 

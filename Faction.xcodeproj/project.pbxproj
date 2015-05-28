@@ -420,6 +420,7 @@
 				341BEF5E1B163674006FB372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		341BEF5F1B163674006FB372 /* Build configuration list for PBXNativeTarget "FactionTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +429,7 @@
 				341BEF611B163674006FB372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
