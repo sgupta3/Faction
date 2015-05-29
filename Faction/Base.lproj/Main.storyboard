@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -39,24 +40,99 @@
                                     <action selector="takePhoto:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="6tl-ja-13n"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j2E-ST-KRF">
+                                <rect key="frame" x="234" y="468" width="50" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="E3J-St-lHi"/>
+                                    <constraint firstAttribute="height" constant="70" id="d1G-Dx-i60"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="savePhoto:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5Kj-y6-FcI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="rjN-My-iqm" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" id="9x8-tg-MCm"/>
                             <constraint firstAttribute="centerX" secondItem="D5p-aa-60b" secondAttribute="centerX" id="EVe-y8-0HQ"/>
                             <constraint firstAttribute="centerY" secondItem="D5p-aa-60b" secondAttribute="centerY" constant="-0.5" id="IrZ-NH-2cO"/>
                             <constraint firstAttribute="centerX" secondItem="0pc-fY-Lfm" secondAttribute="centerX" id="Y2S-Yj-XhP"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="j2E-ST-KRF" secondAttribute="trailing" constant="20" id="jvL-8f-Vto"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="0pc-fY-Lfm" secondAttribute="bottom" constant="20" id="seT-pU-2ch"/>
+                            <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="j2E-ST-KRF" secondAttribute="bottom" constant="30" id="vvH-Is-uZA"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="facesDetectedLabel" destination="D5p-aa-60b" id="dLr-aJ-HBo"/>
                         <outlet property="previewView" destination="rjN-My-iqm" id="i8W-JU-9vq"/>
                         <outlet property="shutterButton" destination="0pc-fY-Lfm" id="xwx-nt-dZo"/>
+                        <outlet property="smallImageTakenView" destination="j2E-ST-KRF" id="a3W-Yn-GWo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="457" y="537"/>
+        </scene>
+        <!--Image View Controller-->
+        <scene sceneID="JfF-oK-lw8">
+            <objects>
+                <viewController id="KHS-e2-aut" customClass="ImageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hgb-xp-txI"/>
+                        <viewControllerLayoutGuide type="bottom" id="vFO-Eg-noF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vp2-x6-z2m">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nu0-LQ-kEd">
+                                <rect key="frame" x="131" y="528" width="57" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Retake">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="retakePhoto:" destination="KHS-e2-aut" eventType="touchUpInside" id="5Dd-dg-4wV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7w-Hz-MYU">
+                                <rect key="frame" x="140" y="490" width="40" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="savePhoto:" destination="KHS-e2-aut" eventType="touchUpInside" id="duA-Qx-zpQ"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="biq-7A-EWg">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="Jnq-AE-xtp"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="biq-7A-EWg" firstAttribute="top" secondItem="vp2-x6-z2m" secondAttribute="top" id="1dv-w2-rJ1"/>
+                            <constraint firstAttribute="trailing" secondItem="biq-7A-EWg" secondAttribute="trailing" id="KqL-mf-TP8"/>
+                            <constraint firstItem="biq-7A-EWg" firstAttribute="leading" secondItem="vp2-x6-z2m" secondAttribute="leading" id="Lt1-J6-LsD"/>
+                            <constraint firstAttribute="centerX" secondItem="nu0-LQ-kEd" secondAttribute="centerX" id="Rzu-N8-JUf"/>
+                            <constraint firstItem="vFO-Eg-noF" firstAttribute="top" secondItem="nu0-LQ-kEd" secondAttribute="bottom" constant="5" id="fa6-pn-6SI"/>
+                            <constraint firstAttribute="centerX" secondItem="T7w-Hz-MYU" secondAttribute="centerX" id="fo1-AQ-8j8"/>
+                            <constraint firstItem="nu0-LQ-kEd" firstAttribute="top" secondItem="T7w-Hz-MYU" secondAttribute="bottom" constant="8" id="nML-uB-PW4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="biq-7A-EWg" id="1hd-VW-hjk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DR2-tA-QQ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="865" y="537"/>
         </scene>
     </scenes>
     <resources>

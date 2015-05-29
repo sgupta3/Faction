@@ -11,6 +11,7 @@
 #import <ImageIO/ImageIO.h>
 #import <AssertMacros.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "ImageViewController.h"
 
 @interface ViewController ()
     @property (nonatomic) BOOL isUsingFrontFacingCamera;
@@ -18,6 +19,9 @@
     @property (nonatomic) dispatch_queue_t videoDataOutputQueue;
     @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
     @property (nonatomic, strong) CIDetector *faceDetector;
+    @property (nonatomic,strong) UIImage *imageTaken;
+    @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
+    - (IBAction)savePhoto:(UIButton *)sender;
 
 - (IBAction)takePhoto:(UIButton *)sender;
     @property (weak, nonatomic) IBOutlet UIButton *shutterButton;
@@ -28,6 +32,7 @@
 @implementation ViewController
 
     AVCaptureSession *session;
+    AVCaptureStillImageOutput *stillImageOutput;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -124,6 +129,14 @@
         
         
         [[self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
+        
+        
+        stillImageOutput = [[AVCaptureStillImageOutput alloc] init]; //Image output allocation
+         NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil]; //configuring the settings for the output
+        [stillImageOutput setOutputSettings:outputSettings]; //setting the configured settings.
+        
+        [session addOutput:stillImageOutput]; //outputting the image.
+
         
         self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
         self.previewLayer.backgroundColor = [[UIColor blackColor] CGColor];
@@ -223,7 +236,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self logFacesWithFeatures:features];
-
+        
     });
 }
 
@@ -243,7 +256,53 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 
-- (IBAction)takePhoto:(UIButton *)sender {
-    NSLog(@"Shutter Pressed");
+- (IBAction)savePhoto:(UIButton *)sender {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        UIImageWriteToSavedPhotosAlbum(self.imageTaken, nil, nil, nil);
+        [[[UIAlertView alloc] initWithTitle:
+          [NSString stringWithFormat:@"Success"]
+                                    message:@"Photo saved."
+                                   delegate:nil
+                          cancelButtonTitle:@"Dismiss"
+                          otherButtonTitles:nil] show];
+    });
+    
 }
+
+- (IBAction)takePhoto:(UIButton *)sender {
+    AVCaptureConnection *videoConnection = nil;
+    //Basic error checking - Checking how many outputs etc.
+    for(AVCaptureConnection *connection in stillImageOutput.connections) {
+        for(AVCaptureInputPort *port in [connection inputPorts]) {
+            if([[port mediaType] isEqual:AVMediaTypeVideo]){
+                videoConnection = connection;
+                break;
+            }
+        }
+        if(videoConnection){
+            break;
+        }
+    }
+    
+    //Capture image in the background. Not to interupt live preview etc.
+    [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+        //As soon as the photo is taken the following code is run.
+        if(imageDataSampleBuffer != NULL) {
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+            self.imageTaken = [[UIImage alloc] init];
+            UIImage *image = [UIImage imageWithData:imageData];
+            self.imageTaken = image;
+            [self.smallImageTakenView setBackgroundImage:image forState:UIControlStateNormal];
+        }
+    }];
+    
+}
+
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    if ([[segue identifier] isEqual:@"viewImageSegue"]){
+//        ImageViewController *imageViewController = (ImageViewController *)segue.destinationViewController;
+//        imageViewController.imageTaken = self.imageTaken;
+//    }
+//}
+
 @end
