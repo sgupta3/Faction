@@ -27,6 +27,19 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="0.57000000000000006" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="1" green="0.0" blue="0.0" alpha="0.32000000000000001" colorSpace="calibratedRGB"/>
                             </label>
+                            <button opaque="NO" alpha="0.69999999999999973" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1a-Xf-F2c">
+                                <rect key="frame" x="38" y="40" width="120" height="96"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="GjF-gk-tuN"/>
+                                    <constraint firstAttribute="height" constant="50" id="u7u-4u-LSt"/>
+                                </constraints>
+                                <state key="normal" image="reverse_camera.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleCamera:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="hVA-yD-pqa"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0pc-fY-Lfm">
                                 <rect key="frame" x="120" y="468" width="80" height="80"/>
                                 <constraints>
@@ -58,6 +71,8 @@
                             <constraint firstItem="rjN-My-iqm" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" id="9x8-tg-MCm"/>
                             <constraint firstAttribute="centerX" secondItem="D5p-aa-60b" secondAttribute="centerX" id="EVe-y8-0HQ"/>
                             <constraint firstAttribute="centerY" secondItem="D5p-aa-60b" secondAttribute="centerY" constant="-0.5" id="IrZ-NH-2cO"/>
+                            <constraint firstItem="U1a-Xf-F2c" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="10" id="Qxi-9q-Oq8"/>
+                            <constraint firstItem="U1a-Xf-F2c" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="5" id="VvO-cA-oab"/>
                             <constraint firstAttribute="centerX" secondItem="0pc-fY-Lfm" secondAttribute="centerX" id="Y2S-Yj-XhP"/>
                             <constraint firstAttribute="trailingMargin" secondItem="j2E-ST-KRF" secondAttribute="trailing" constant="20" id="jvL-8f-Vto"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="0pc-fY-Lfm" secondAttribute="bottom" constant="20" id="seT-pU-2ch"/>
@@ -136,6 +151,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="reverse_camera.png" width="120" height="96"/>
         <image name="shutter.png" width="300" height="300"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

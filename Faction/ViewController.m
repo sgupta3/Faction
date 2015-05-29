@@ -22,6 +22,7 @@
     @property (nonatomic,strong) UIImage *imageTaken;
     @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
     - (IBAction)savePhoto:(UIButton *)sender;
+    - (IBAction)toggleCamera:(UIButton *)sender;
 
 - (IBAction)takePhoto:(UIButton *)sender;
     @property (weak, nonatomic) IBOutlet UIButton *shutterButton;
@@ -233,7 +234,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         // get the clean aperture
     // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
     // that represents image data valid for display.
-    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+   // CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self logFacesWithFeatures:features];
@@ -269,6 +270,28 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                           otherButtonTitles:nil] show];
     });
     
+}
+
+- (IBAction)toggleCamera:(UIButton *)sender {
+    AVCaptureDevicePosition desiredPosition;
+    if (self.isUsingFrontFacingCamera)
+        desiredPosition = AVCaptureDevicePositionBack;
+    else
+        desiredPosition = AVCaptureDevicePositionFront;
+    
+    for (AVCaptureDevice *d in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
+        if ([d position] == desiredPosition) {
+            [[self.previewLayer session] beginConfiguration];
+            AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:d error:nil];
+            for (AVCaptureInput *oldInput in [[self.previewLayer session] inputs]) {
+                [[self.previewLayer session] removeInput:oldInput];
+            }
+            [[self.previewLayer session] addInput:input];
+            [[self.previewLayer session] commitConfiguration];
+            break;
+        }
+    }
+    self.isUsingFrontFacingCamera = !self.isUsingFrontFacingCamera;
 }
 
 - (IBAction)takePhoto:(UIButton *)sender {
