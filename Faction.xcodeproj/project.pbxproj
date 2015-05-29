@@ -15,6 +15,7 @@
 		341BEF4D1B163674006FB372 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341BEF4B1B163674006FB372 /* LaunchScreen.xib */; };
 		341BEF591B163674006FB372 /* FactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BEF581B163674006FB372 /* FactionTests.m */; };
 		341BEF631B164DB4006FB372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BEF621B164DB4006FB372 /* AVFoundation.framework */; };
+		34FCEC341B18C27600B68EEC /* shutter.png in Resources */ = {isa = PBXBuildFile; fileRef = 34FCEC331B18C27600B68EEC /* shutter.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		341BEF571B163674006FB372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		341BEF581B163674006FB372 /* FactionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactionTests.m; sourceTree = "<group>"; };
 		341BEF621B164DB4006FB372 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		34FCEC331B18C27600B68EEC /* shutter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shutter.png; path = ../../../../Desktop/shutter.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				341BEF431B163674006FB372 /* ViewController.h */,
 				341BEF441B163674006FB372 /* ViewController.m */,
 				341BEF461B163674006FB372 /* Main.storyboard */,
+				34FCEC331B18C27600B68EEC /* shutter.png */,
 				341BEF491B163674006FB372 /* Images.xcassets */,
 				341BEF4B1B163674006FB372 /* LaunchScreen.xib */,
 				341BEF3C1B163674006FB372 /* Supporting Files */,
@@ -204,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				341BEF481B163674006FB372 /* Main.storyboard in Resources */,
+				34FCEC341B18C27600B68EEC /* shutter.png in Resources */,
 				341BEF4D1B163674006FB372 /* LaunchScreen.xib in Resources */,
 				341BEF4A1B163674006FB372 /* Images.xcassets in Resources */,
 			);
@@ -351,6 +355,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = Faction/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -361,6 +366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = Faction/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -420,6 +426,7 @@
 				341BEF5E1B163674006FB372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		341BEF5F1B163674006FB372 /* Build configuration list for PBXNativeTarget "FactionTests" */ = {
 			isa = XCConfigurationList;
@@ -428,6 +435,7 @@
 				341BEF611B163674006FB372 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
