@@ -11,5 +11,7 @@
 
 @interface ViewController : UIViewController <AVCaptureVideoDataOutputSampleBufferDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *previewView;
+
 @end
 
