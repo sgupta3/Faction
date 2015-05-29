@@ -38,6 +38,7 @@
     [super viewDidLoad];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [self.shutterButton setAlpha:.62];
+    [self.smallImageTakenView setHidden:YES];
     [self setupCapture];
     NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
     self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
@@ -258,6 +259,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 - (IBAction)savePhoto:(UIButton *)sender {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self.smallImageTakenView setHidden:YES];
         UIImageWriteToSavedPhotosAlbum(self.imageTaken, nil, nil, nil);
         [[[UIAlertView alloc] initWithTitle:
           [NSString stringWithFormat:@"Success"]
@@ -292,6 +294,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             self.imageTaken = [[UIImage alloc] init];
             UIImage *image = [UIImage imageWithData:imageData];
             self.imageTaken = image;
+            [self.smallImageTakenView setHidden:NO];
             [self.smallImageTakenView setBackgroundImage:image forState:UIControlStateNormal];
         }
     }];
