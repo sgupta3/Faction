@@ -21,11 +21,13 @@
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, strong) CIDetector *faceDetector;
 @property (nonatomic,strong) UIImage *imageTaken;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 
 //IB Actions and Outlets
 @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
 @property (weak, nonatomic) IBOutlet UIButton *shutterButton;
 @property (weak, nonatomic) IBOutlet UILabel *facesDetectedLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *squareOutline;
 - (IBAction)savePhoto:(UIButton *)sender;
 - (IBAction)toggleCamera:(UIButton *)sender;
 - (IBAction)takePhoto:(UIButton *)sender;
@@ -191,11 +193,13 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // get the clean aperture
     // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
     // that represents image data valid for display.
-    // CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
     
+//    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+//    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
+
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self showFacesWithFeatures:features];
-        
+        [self showHelperMessage:features];
     });
 }
 
@@ -245,17 +249,52 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     return [NSNumber numberWithInt:exifOrientation];
 }
 
-
 #pragma mark View helpers
 
 -(void) showFacesWithFeatures : (NSArray *)features {
     NSUInteger facesDetected = features.count;
     self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
-    if(facesDetected != 1) {
-        [self.shutterButton setEnabled:NO];
-    }else {
-        [self.shutterButton setEnabled:YES];
+}
+
+- (void) showHelperMessage : (NSArray *) features {
+    NSUInteger facesDetected = features.count;
+    self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
+    self.errorLabel.backgroundColor = [UIColor redColor];
+    [self.shutterButton setEnabled:NO];
+    if(facesDetected == 0) {
+        self.errorLabel.text = @"No faces detected";
+    } else if(facesDetected > 1) {
+        self.errorLabel.text = @"Only 1 face allowed";
+    } else {
         
+        for ( CIFaceFeature *ff in features ) {
+           
+            CGRect faceRect = [ff bounds];
+            
+//            CGFloat temp = faceRect.size.width;
+//            faceRect.size.width = faceRect.size.height;
+//            faceRect.size.height = temp;
+//            temp = faceRect.origin.x;
+//            faceRect.origin.x = faceRect.origin.y/2;
+//            faceRect.origin.y = temp;
+            
+            NSLog(@" Origin: (%f, %f) || Width: %f, Height: %f",faceRect.origin.x,faceRect.origin.y,faceRect.size.width,faceRect.size.height);
+            
+            if(faceRect.size.width > 150 && faceRect.size.width < 300) {
+                self.errorLabel.backgroundColor = [UIColor greenColor];
+                self.errorLabel.text = @"Perfect!";
+     
+                //self.squareOutline.bounds = faceRect;
+                [self.shutterButton setEnabled:YES];
+            }
+            else {
+                if(faceRect.size.width < 150) {
+                    self.errorLabel.text = @"Too far";
+                } else {
+                    self.errorLabel.text = @"Too close";
+                }
+            }
+        }
     }
 }
 

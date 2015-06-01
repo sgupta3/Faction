@@ -66,6 +66,16 @@
                                     <action selector="savePhoto:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5Kj-y6-FcI"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="outline_square.png" translatesAutoresizingMaskIntoConstraints="NO" id="Bil-ua-OJv">
+                                <rect key="frame" x="-240" y="-81" width="800" height="730"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.89999999999999991" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLj-sO-8mv">
+                                <rect key="frame" x="160" y="100" width="0.0" height="0.0"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="rjN-My-iqm" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" id="9x8-tg-MCm"/>
@@ -73,20 +83,24 @@
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="rjN-My-iqm" secondAttribute="bottom" id="Erd-Ut-SC4"/>
                             <constraint firstAttribute="centerY" secondItem="D5p-aa-60b" secondAttribute="centerY" constant="-0.5" id="IrZ-NH-2cO"/>
                             <constraint firstAttribute="trailing" secondItem="rjN-My-iqm" secondAttribute="trailing" id="PNy-IS-ccH"/>
+                            <constraint firstAttribute="centerX" secondItem="uLj-sO-8mv" secondAttribute="centerX" id="Pv8-zk-Uo5"/>
                             <constraint firstItem="U1a-Xf-F2c" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="10" id="Qxi-9q-Oq8"/>
                             <constraint firstItem="U1a-Xf-F2c" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="5" id="VvO-cA-oab"/>
                             <constraint firstAttribute="centerX" secondItem="0pc-fY-Lfm" secondAttribute="centerX" id="Y2S-Yj-XhP"/>
                             <constraint firstItem="rjN-My-iqm" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="am6-YT-SSx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="j2E-ST-KRF" secondAttribute="trailing" constant="20" id="jvL-8f-Vto"/>
+                            <constraint firstItem="uLj-sO-8mv" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="80" id="qMc-1g-PzE"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="0pc-fY-Lfm" secondAttribute="bottom" constant="20" id="seT-pU-2ch"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="j2E-ST-KRF" secondAttribute="bottom" constant="30" id="vvH-Is-uZA"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="errorLabel" destination="uLj-sO-8mv" id="f6v-zP-5np"/>
                         <outlet property="facesDetectedLabel" destination="D5p-aa-60b" id="dLr-aJ-HBo"/>
                         <outlet property="previewView" destination="rjN-My-iqm" id="i8W-JU-9vq"/>
                         <outlet property="shutterButton" destination="0pc-fY-Lfm" id="xwx-nt-dZo"/>
                         <outlet property="smallImageTakenView" destination="j2E-ST-KRF" id="a3W-Yn-GWo"/>
+                        <outlet property="squareOutline" destination="Bil-ua-OJv" id="fEJ-Pf-s7V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -95,6 +109,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="outline_square.png" width="800" height="730"/>
         <image name="reverse_camera.png" width="120" height="96"/>
         <image name="shutter.png" width="300" height="300"/>
     </resources>
