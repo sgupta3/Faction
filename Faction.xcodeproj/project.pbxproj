@@ -16,7 +16,6 @@
 		341BEF591B163674006FB372 /* FactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BEF581B163674006FB372 /* FactionTests.m */; };
 		341BEF631B164DB4006FB372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BEF621B164DB4006FB372 /* AVFoundation.framework */; };
 		34FCEC341B18C27600B68EEC /* shutter.png in Resources */ = {isa = PBXBuildFile; fileRef = 34FCEC331B18C27600B68EEC /* shutter.png */; };
-		34FCEC371B18DA1700B68EEC /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FCEC361B18DA1700B68EEC /* ImageViewController.m */; };
 		34FCEC391B18FF6200B68EEC /* reverse_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 34FCEC381B18FF6200B68EEC /* reverse_camera.png */; };
 /* End PBXBuildFile section */
 
@@ -46,8 +45,6 @@
 		341BEF581B163674006FB372 /* FactionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactionTests.m; sourceTree = "<group>"; };
 		341BEF621B164DB4006FB372 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		34FCEC331B18C27600B68EEC /* shutter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shutter.png; path = ../../../../Desktop/shutter.png; sourceTree = "<group>"; };
-		34FCEC351B18DA1700B68EEC /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
-		34FCEC361B18DA1700B68EEC /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
 		34FCEC381B18FF6200B68EEC /* reverse_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reverse_camera.png; path = ../../../../Desktop/reverse_camera.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,15 +89,12 @@
 		341BEF3B1B163674006FB372 /* Faction */ = {
 			isa = PBXGroup;
 			children = (
-				34FCEC381B18FF6200B68EEC /* reverse_camera.png */,
+				349E64A51B1C987D00C6FF72 /* Images */,
 				341BEF401B163674006FB372 /* AppDelegate.h */,
 				341BEF411B163674006FB372 /* AppDelegate.m */,
 				341BEF431B163674006FB372 /* ViewController.h */,
 				341BEF441B163674006FB372 /* ViewController.m */,
-				34FCEC351B18DA1700B68EEC /* ImageViewController.h */,
-				34FCEC361B18DA1700B68EEC /* ImageViewController.m */,
 				341BEF461B163674006FB372 /* Main.storyboard */,
-				34FCEC331B18C27600B68EEC /* shutter.png */,
 				341BEF491B163674006FB372 /* Images.xcassets */,
 				341BEF4B1B163674006FB372 /* LaunchScreen.xib */,
 				341BEF3C1B163674006FB372 /* Supporting Files */,
@@ -132,6 +126,15 @@
 				341BEF571B163674006FB372 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		349E64A51B1C987D00C6FF72 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				34FCEC331B18C27600B68EEC /* shutter.png */,
+				34FCEC381B18FF6200B68EEC /* reverse_camera.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,7 +241,6 @@
 			files = (
 				341BEF451B163674006FB372 /* ViewController.m in Sources */,
 				341BEF421B163674006FB372 /* AppDelegate.m in Sources */,
-				34FCEC371B18DA1700B68EEC /* ImageViewController.m in Sources */,
 				341BEF3F1B163674006FB372 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

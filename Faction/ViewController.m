@@ -14,50 +14,53 @@
 #import "ImageViewController.h"
 
 @interface ViewController ()
-    @property (nonatomic) BOOL isUsingFrontFacingCamera;
-    @property (nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
-    @property (nonatomic) dispatch_queue_t videoDataOutputQueue;
-    @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
-    @property (nonatomic, strong) CIDetector *faceDetector;
-    @property (nonatomic,strong) UIImage *imageTaken;
-    @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
-    - (IBAction)savePhoto:(UIButton *)sender;
-    - (IBAction)toggleCamera:(UIButton *)sender;
+//Private properties
+@property (nonatomic) BOOL isUsingFrontFacingCamera;
+@property (nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
+@property (nonatomic) dispatch_queue_t videoDataOutputQueue;
+@property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
+@property (nonatomic, strong) CIDetector *faceDetector;
+@property (nonatomic,strong) UIImage *imageTaken;
 
-- (IBAction)takePhoto:(UIButton *)sender;
-    @property (weak, nonatomic) IBOutlet UIButton *shutterButton;
-
+//IB Actions and Outlets
+@property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
+@property (weak, nonatomic) IBOutlet UIButton *shutterButton;
 @property (weak, nonatomic) IBOutlet UILabel *facesDetectedLabel;
+- (IBAction)savePhoto:(UIButton *)sender;
+- (IBAction)toggleCamera:(UIButton *)sender;
+- (IBAction)takePhoto:(UIButton *)sender;
+
 @end
 
 @implementation ViewController
 
-    AVCaptureSession *session;
-    AVCaptureStillImageOutput *stillImageOutput;
+AVCaptureSession *session;
+AVCaptureStillImageOutput *stillImageOutput;
+
+
+#pragma mark View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [self.shutterButton setAlpha:.62];
-    [self.smallImageTakenView setHidden:YES];
     [self setupCapture];
+    [self onLoadUISetup];
     NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
     self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
 }
-
-- (void) viewWillAppear:(BOOL)animated{
-}
-
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+
+#pragma mark Capture Setup
+
 - (void) setupCapture {
     
     //Setting up the session for A/V IO.
-     session = [[AVCaptureSession alloc] init];
+    session = [[AVCaptureSession alloc] init];
     //session.sessionPreset = AVCaptureSessionPresetPhoto;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
@@ -88,7 +91,7 @@
     }
     
     
-   // May enable other features like auto-focusing, auto white balacing etc here.
+    // May enable other features like auto-focusing, auto white balacing etc here.
     if([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]){
         NSError *error = nil;
         if([device lockForConfiguration:&error]){
@@ -134,11 +137,11 @@
         
         
         stillImageOutput = [[AVCaptureStillImageOutput alloc] init]; //Image output allocation
-         NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil]; //configuring the settings for the output
+        NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:AVVideoCodecJPEG, AVVideoCodecKey, nil]; //configuring the settings for the output
         [stillImageOutput setOutputSettings:outputSettings]; //setting the configured settings.
         
         [session addOutput:stillImageOutput]; //outputting the image.
-
+        
         
         self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
         self.previewLayer.backgroundColor = [[UIColor blackColor] CGColor];
@@ -154,12 +157,46 @@
     session = nil;
     if (error) {
         [[[UIAlertView alloc] initWithTitle:
-                                  [NSString stringWithFormat:@"Failed with error %d", (int)[error code]]
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Dismiss"
-                                                  otherButtonTitles:nil] show];
+          [NSString stringWithFormat:@"Failed with error %d", (int)[error code]]
+                                    message:[error localizedDescription]
+                                   delegate:nil
+                          cancelButtonTitle:@"Dismiss"
+                          otherButtonTitles:nil] show];
     }
+}
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection
+{
+    // get the image
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer
+                                                      options:(__bridge NSDictionary *)attachments];
+    if (attachments) {
+        CFRelease(attachments);
+    }
+    
+    // make sure your device orientation is not locked.
+    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
+    
+    NSDictionary *imageOptions = nil;
+    
+    imageOptions = [NSDictionary dictionaryWithObject:[self exifOrientation:curDeviceOrientation]
+                                               forKey:CIDetectorImageOrientation];
+    
+    NSArray *features = [self.faceDetector featuresInImage:ciImage
+                                                   options:imageOptions];
+    // get the clean aperture
+    // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
+    // that represents image data valid for display.
+    // CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self showFacesWithFeatures:features];
+        
+    });
 }
 
 - (NSNumber *) exifOrientation: (UIDeviceOrientation) orientation
@@ -208,53 +245,63 @@
     return [NSNumber numberWithInt:exifOrientation];
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-       fromConnection:(AVCaptureConnection *)connection
-{
-    // get the image
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
-    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer
-                                                      options:(__bridge NSDictionary *)attachments];
-    if (attachments) {
-        CFRelease(attachments);
-    }
-    
-    // make sure your device orientation is not locked.
-    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
-    
-    NSDictionary *imageOptions = nil;
-    
-    imageOptions = [NSDictionary dictionaryWithObject:[self exifOrientation:curDeviceOrientation]
-                                               forKey:CIDetectorImageOrientation];
-    
-    NSArray *features = [self.faceDetector featuresInImage:ciImage
-                                                   options:imageOptions];
-        // get the clean aperture
-    // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
-    // that represents image data valid for display.
-   // CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
 
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [self logFacesWithFeatures:features];
-        
-    });
-}
+#pragma mark View helpers
 
--(void) logFacesWithFeatures : (NSArray *)features {
+-(void) showFacesWithFeatures : (NSArray *)features {
     NSUInteger facesDetected = features.count;
     self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
     if(facesDetected != 1) {
         [self.shutterButton setEnabled:NO];
     }else {
         [self.shutterButton setEnabled:YES];
-
+        
     }
 }
 
+- (void) onLoadUISetup {
+    [self.shutterButton setAlpha:.62];
+    [self.smallImageTakenView setHidden:YES];
+}
+
+
+# pragma mark Orientation Configuration
+
 -(NSUInteger) supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+
+
+# pragma mark Actions
+
+- (IBAction)takePhoto:(UIButton *)sender {
+    AVCaptureConnection *videoConnection = nil;
+    //Basic error checking - Checking how many outputs etc.
+    for(AVCaptureConnection *connection in stillImageOutput.connections) {
+        for(AVCaptureInputPort *port in [connection inputPorts]) {
+            if([[port mediaType] isEqual:AVMediaTypeVideo]){
+                videoConnection = connection;
+                break;
+            }
+        }
+        if(videoConnection){
+            break;
+        }
+    }
+    
+    //Capture image in the background. Not to interupt live preview etc.
+    [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+        //As soon as the photo is taken the following code is run.
+        if(imageDataSampleBuffer != NULL) {
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+            UIImage *image = [UIImage imageWithData:imageData];
+            self.imageTaken = image;
+            [self.smallImageTakenView setHidden:NO];
+            [self.smallImageTakenView setBackgroundImage:image forState:UIControlStateNormal];
+        }
+    }];
+    
 }
 
 
@@ -294,41 +341,5 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     self.isUsingFrontFacingCamera = !self.isUsingFrontFacingCamera;
 }
 
-- (IBAction)takePhoto:(UIButton *)sender {
-    AVCaptureConnection *videoConnection = nil;
-    //Basic error checking - Checking how many outputs etc.
-    for(AVCaptureConnection *connection in stillImageOutput.connections) {
-        for(AVCaptureInputPort *port in [connection inputPorts]) {
-            if([[port mediaType] isEqual:AVMediaTypeVideo]){
-                videoConnection = connection;
-                break;
-            }
-        }
-        if(videoConnection){
-            break;
-        }
-    }
-    
-    //Capture image in the background. Not to interupt live preview etc.
-    [stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-        //As soon as the photo is taken the following code is run.
-        if(imageDataSampleBuffer != NULL) {
-            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-            self.imageTaken = [[UIImage alloc] init];
-            UIImage *image = [UIImage imageWithData:imageData];
-            self.imageTaken = image;
-            [self.smallImageTakenView setHidden:NO];
-            [self.smallImageTakenView setBackgroundImage:image forState:UIControlStateNormal];
-        }
-    }];
-    
-}
-
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([[segue identifier] isEqual:@"viewImageSegue"]){
-//        ImageViewController *imageViewController = (ImageViewController *)segue.destinationViewController;
-//        imageViewController.imageTaken = self.imageTaken;
-//    }
-//}
 
 @end
