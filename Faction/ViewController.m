@@ -193,12 +193,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
     // that represents image data valid for display.
     
-    //CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
-    //CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
+    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self showFacesWithFeatures:features];
-        [self showHelperMessage:features];
+        [self showHelperMessage:features forVideoBox:clap orientation:curDeviceOrientation];
     });
 }
 
@@ -247,6 +247,49 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     return [NSNumber numberWithInt:exifOrientation];
 }
 
+// find where the video box is positioned within the preview layer based on the video size and gravity
+- (CGRect)videoPreviewBoxForGravity:(NSString *)gravity frameSize:(CGSize)frameSize apertureSize:(CGSize)apertureSize
+{
+    CGFloat apertureRatio = apertureSize.height / apertureSize.width;
+    CGFloat viewRatio = frameSize.width / frameSize.height;
+    
+    CGSize size = CGSizeZero;
+    if ([gravity isEqualToString:AVLayerVideoGravityResizeAspectFill]) {
+        if (viewRatio > apertureRatio) {
+            size.width = frameSize.width;
+            size.height = apertureSize.width * (frameSize.width / apertureSize.height);
+        } else {
+            size.width = apertureSize.height * (frameSize.height / apertureSize.width);
+            size.height = frameSize.height;
+        }
+    } else if ([gravity isEqualToString:AVLayerVideoGravityResizeAspect]) {
+        if (viewRatio > apertureRatio) {
+            size.width = apertureSize.height * (frameSize.height / apertureSize.width);
+            size.height = frameSize.height;
+        } else {
+            size.width = frameSize.width;
+            size.height = apertureSize.width * (frameSize.width / apertureSize.height);
+        }
+    } else if ([gravity isEqualToString:AVLayerVideoGravityResize]) {
+        size.width = frameSize.width;
+        size.height = frameSize.height;
+    }
+    
+    CGRect videoBox;
+    videoBox.size = size;
+    if (size.width < frameSize.width)
+        videoBox.origin.x = (frameSize.width - size.width) / 2;
+    else
+        videoBox.origin.x = (size.width - frameSize.width) / 2;
+    
+    if ( size.height < frameSize.height )
+        videoBox.origin.y = (frameSize.height - size.height) / 2;
+    else
+        videoBox.origin.y = (size.height - frameSize.height) / 2;
+    
+    return videoBox;
+}
+
 #pragma mark View helpers
 
 -(void) showFacesWithFeatures : (NSArray *)features {
@@ -254,11 +297,16 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
 }
 
-- (void) showHelperMessage : (NSArray *) features {
+
+- (void) showHelperMessage : (NSArray *) features forVideoBox:(CGRect)clap orientation:(UIDeviceOrientation)orientation {
+
     NSUInteger facesDetected = features.count;
+    
     self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
     self.errorLabel.backgroundColor = [UIColor redColor];
+    
     [self.shutterButton setEnabled:NO];
+    
     if(facesDetected == 0) {
         self.errorLabel.text = @"No faces detected";
     } else if(facesDetected > 1) {
@@ -266,24 +314,14 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     } else {
         
         for ( CIFaceFeature *ff in features ) {
-           
-            CGRect faceRect = [ff bounds];
-            //CGRect previewLayerBounds = [self.previewLayer bounds];
             
-            NSLog(@" Origin: (%f, %f) || Width: %f, Height: %f",faceRect.origin.x,faceRect.origin.y,faceRect.size.width,faceRect.size.height);
-            //NSLog(@" Origin: (%f, %f) || Width: %f, Height: %f",previewLayerBounds.origin.x,previewLayerBounds.origin.y,previewLayerBounds.size.width,previewLayerBounds.size.height);
-
-            CGRect temp = faceRect;
-            faceRect.origin.x = -faceRect.origin.y;
-            faceRect.origin.y = temp.origin.x;
+            CGRect faceRect = [ff bounds];
             
             if(faceRect.size.width > 150 && faceRect.size.width < 300) {
                 self.errorLabel.backgroundColor = [UIColor greenColor];
                 self.errorLabel.text = @"Perfect!";
-     
-                 self.squareOutline.frame = faceRect;
-                
                 [self.shutterButton setEnabled:YES];
+                [self showFaceTracker:features forVideoBox:clap orientation:orientation];
             }
             else {
                 if(faceRect.size.width < 150) {
@@ -296,6 +334,50 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
 }
 
+- (void) showFaceTracker:(NSArray *)features forVideoBox:(CGRect)clap orientation:(UIDeviceOrientation)orientation
+{
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+    
+    CGSize parentFrameSize = [self.previewView frame].size;
+    NSString *gravity = [self.previewLayer videoGravity];
+    CGRect previewBox = [self videoPreviewBoxForGravity:gravity
+                                                        frameSize:parentFrameSize
+                                                     apertureSize:clap.size];
+    
+    for ( CIFaceFeature *ff in features ) {
+        // find the correct position for the square layer within the previewLayer
+        // the feature box originates in the bottom left of the video frame.
+        // (Bottom right if mirroring is turned on)
+        CGRect faceRect = [ff bounds];
+        
+        // flip preview width and height
+        CGFloat temp = faceRect.size.width;
+        faceRect.size.width = faceRect.size.height;
+        faceRect.size.height = temp;
+        temp = faceRect.origin.x;
+        faceRect.origin.x = faceRect.origin.y;
+        faceRect.origin.y = temp;
+        // scale coordinates so they fit in the preview box, which may be scaled
+        CGFloat widthScaleBy = previewBox.size.width / clap.size.height;
+        CGFloat heightScaleBy = previewBox.size.height / clap.size.width;
+        faceRect.size.width *= widthScaleBy;
+        faceRect.size.height *= heightScaleBy;
+        faceRect.origin.x *= widthScaleBy;
+        faceRect.origin.y *= heightScaleBy;
+        
+        if ( self.isUsingFrontFacingCamera ) {
+            faceRect = CGRectOffset(faceRect, previewBox.origin.x + previewBox.size.width - faceRect.size.width - (faceRect.origin.x * 2), previewBox.origin.y);
+        } else {
+            faceRect = CGRectOffset(faceRect, previewBox.origin.x, previewBox.origin.y);
+        }
+        
+        faceRect.origin.x -= 100;
+        self.squareOutline.frame = faceRect;
+    }
+    
+    [CATransaction commit];
+}
 
 - (void) setupOnLoadUI {
     [self.shutterButton setAlpha:.62];

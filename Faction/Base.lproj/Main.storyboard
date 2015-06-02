@@ -21,6 +21,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="outline_square.png" translatesAutoresizingMaskIntoConstraints="NO" id="Bil-ua-OJv"/>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5p-aa-60b">
                                 <rect key="frame" x="159" y="284" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="80"/>
@@ -73,9 +74,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="outline_square.png" translatesAutoresizingMaskIntoConstraints="NO" id="Bil-ua-OJv">
-                                <rect key="frame" x="-240" y="-81" width="800" height="730"/>
-                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="rjN-My-iqm" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" id="9x8-tg-MCm"/>
