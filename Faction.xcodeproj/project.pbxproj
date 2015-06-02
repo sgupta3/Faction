@@ -19,6 +19,7 @@
 		348F42871B1E37A10087A166 /* Switch Camera-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F42861B1E37A10087A166 /* Switch Camera-100.png */; };
 		348F42891B1E39E50087A166 /* switch_camera_filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F42881B1E39E50087A166 /* switch_camera_filled-100.png */; };
 		348F428B1B1E40E90087A166 /* outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F428A1B1E40E90087A166 /* outline.png */; };
+		348F428D1B1E46C10087A166 /* images.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F428C1B1E46C10087A166 /* images.png */; };
 		349E64A91B1CA50600C6FF72 /* outline_square.png in Resources */ = {isa = PBXBuildFile; fileRef = 349E64A81B1CA50600C6FF72 /* outline_square.png */; };
 		34FCEC341B18C27600B68EEC /* shutter.png in Resources */ = {isa = PBXBuildFile; fileRef = 34FCEC331B18C27600B68EEC /* shutter.png */; };
 		34FCEC391B18FF6200B68EEC /* reverse_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 34FCEC381B18FF6200B68EEC /* reverse_camera.png */; };
@@ -53,6 +54,7 @@
 		348F42861B1E37A10087A166 /* Switch Camera-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switch Camera-100.png"; sourceTree = "<group>"; };
 		348F42881B1E39E50087A166 /* switch_camera_filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switch_camera_filled-100.png"; sourceTree = "<group>"; };
 		348F428A1B1E40E90087A166 /* outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = outline.png; sourceTree = "<group>"; };
+		348F428C1B1E46C10087A166 /* images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = images.png; sourceTree = "<group>"; };
 		349E64A81B1CA50600C6FF72 /* outline_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = outline_square.png; path = ../../../../Desktop/outline_square.png; sourceTree = "<group>"; };
 		34FCEC331B18C27600B68EEC /* shutter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = shutter.png; path = ../../../../Desktop/shutter.png; sourceTree = "<group>"; };
 		34FCEC381B18FF6200B68EEC /* reverse_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reverse_camera.png; path = ../../../../Desktop/reverse_camera.png; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 		349E64A51B1C987D00C6FF72 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				348F428C1B1E46C10087A166 /* images.png */,
 				348F42841B1E37280087A166 /* Rotate Camera-100.png */,
 				348F428A1B1E40E90087A166 /* outline.png */,
 				348F42861B1E37A10087A166 /* Switch Camera-100.png */,
@@ -237,6 +240,7 @@
 				348F42871B1E37A10087A166 /* Switch Camera-100.png in Resources */,
 				34FCEC341B18C27600B68EEC /* shutter.png in Resources */,
 				34FCEC391B18FF6200B68EEC /* reverse_camera.png in Resources */,
+				348F428D1B1E46C10087A166 /* images.png in Resources */,
 				349E64A91B1CA50600C6FF72 /* outline_square.png in Resources */,
 				341BEF4D1B163674006FB372 /* LaunchScreen.xib in Resources */,
 				348F42851B1E37280087A166 /* Rotate Camera-100.png in Resources */,
