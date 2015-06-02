@@ -46,9 +46,8 @@ AVCaptureStillImageOutput *stillImageOutput;
     [super viewDidLoad];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [self setupCapture];
-    [self onLoadUISetup];
-    NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
-    self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
+    [self setupOnLoadUI];
+    [self setupFaceDetector];
 }
 
 
@@ -194,8 +193,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // the clean aperture is a rectangle that defines the portion of the encoded pixel dimensions
     // that represents image data valid for display.
     
-//    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
-//    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
+    //CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+    //CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self showFacesWithFeatures:features];
@@ -243,8 +242,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             break;
         case UIDeviceOrientationPortrait:            // Device oriented vertically, home button on the bottom
         default:
-            exifOrientation = PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP;
-            break;
+            exifOrientation = PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP;             break;
     }
     return [NSNumber numberWithInt:exifOrientation];
 }
@@ -270,21 +268,21 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         for ( CIFaceFeature *ff in features ) {
            
             CGRect faceRect = [ff bounds];
-            
-//            CGFloat temp = faceRect.size.width;
-//            faceRect.size.width = faceRect.size.height;
-//            faceRect.size.height = temp;
-//            temp = faceRect.origin.x;
-//            faceRect.origin.x = faceRect.origin.y/2;
-//            faceRect.origin.y = temp;
+            //CGRect previewLayerBounds = [self.previewLayer bounds];
             
             NSLog(@" Origin: (%f, %f) || Width: %f, Height: %f",faceRect.origin.x,faceRect.origin.y,faceRect.size.width,faceRect.size.height);
+            //NSLog(@" Origin: (%f, %f) || Width: %f, Height: %f",previewLayerBounds.origin.x,previewLayerBounds.origin.y,previewLayerBounds.size.width,previewLayerBounds.size.height);
+
+            CGRect temp = faceRect;
+            faceRect.origin.x = -faceRect.origin.y;
+            faceRect.origin.y = temp.origin.x;
             
             if(faceRect.size.width > 150 && faceRect.size.width < 300) {
                 self.errorLabel.backgroundColor = [UIColor greenColor];
                 self.errorLabel.text = @"Perfect!";
      
-                //self.squareOutline.bounds = faceRect;
+                 self.squareOutline.frame = faceRect;
+                
                 [self.shutterButton setEnabled:YES];
             }
             else {
@@ -298,11 +296,18 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }
 }
 
-- (void) onLoadUISetup {
+
+- (void) setupOnLoadUI {
     [self.shutterButton setAlpha:.62];
     [self.smallImageTakenView setHidden:YES];
 }
 
+#pragma mark utilities
+
+- (void) setupFaceDetector {
+    NSDictionary *detectorOptions = [[NSDictionary alloc] initWithObjectsAndKeys:CIDetectorAccuracyLow, CIDetectorAccuracy, nil];
+    self.faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:detectorOptions];
+}
 
 # pragma mark Orientation Configuration
 
@@ -340,7 +345,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             [self.smallImageTakenView setBackgroundImage:image forState:UIControlStateNormal];
         }
     }];
-    
 }
 
 
