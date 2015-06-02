@@ -296,10 +296,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
     NSUInteger facesDetected = features.count;
     
-    self.errorLabel.backgroundColor = [UIColor redColor];
-    
     [self.shutterButton setEnabled:NO];
-    
+    self.errorLabel.textColor = [UIColor redColor];
     if(facesDetected == 0) {
         self.errorLabel.text = @"No faces detected";
     } else if(facesDetected > 1) {
@@ -311,8 +309,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             CGRect faceRect = [ff bounds];
             
             if(faceRect.size.width > 150 && faceRect.size.width < 300) {
-                self.errorLabel.backgroundColor = [UIColor greenColor];
-                self.errorLabel.text = @"Perfect!";
+                self.errorLabel.textColor = [UIColor greenColor];
+                self.errorLabel.text = @"Perfect";
                 [self.shutterButton setEnabled:YES];
                 [self showFaceTracker:features forVideoBox:clap orientation:orientation];
             }
