@@ -397,6 +397,10 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     return UIInterfaceOrientationMaskPortrait;
 }
 
+- (BOOL) prefersStatusBarHidden {
+    return YES;
+}
+
 
 
 # pragma mark Actions
