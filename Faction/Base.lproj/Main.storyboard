@@ -43,21 +43,15 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="KXG-8q-J4V"/>
                                 </constraints>
-                                <blurEffect style="light"/>
+                                <blurEffect style="dark"/>
                             </visualEffectView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D5p-aa-60b">
-                                <rect key="frame" x="159" y="284" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="80"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="0.57000000000000006" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" red="1" green="0.0" blue="0.0" alpha="0.32000000000000001" colorSpace="calibratedRGB"/>
-                            </label>
                             <button opaque="NO" alpha="0.69999999999999973" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1a-Xf-F2c">
-                                <rect key="frame" x="10" y="5" width="50" height="40"/>
+                                <rect key="frame" x="20" y="10" width="35" height="35"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="1Ja-XQ-6kh"/>
-                                    <constraint firstAttribute="height" constant="40" id="hZo-he-0We"/>
+                                    <constraint firstAttribute="width" constant="35" id="1Ja-XQ-6kh"/>
+                                    <constraint firstAttribute="height" constant="35" id="hZo-he-0We"/>
                                 </constraints>
-                                <state key="normal" image="reverse_camera.png">
+                                <state key="normal" image="switch_camera_filled-100.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -99,9 +93,7 @@
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="D5p-aa-60b" secondAttribute="centerX" id="EVe-y8-0HQ"/>
-                            <constraint firstAttribute="centerY" secondItem="D5p-aa-60b" secondAttribute="centerY" constant="-0.5" id="IrZ-NH-2cO"/>
-                            <constraint firstItem="U1a-Xf-F2c" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="5" id="MPe-EP-I1z"/>
+                            <constraint firstItem="U1a-Xf-F2c" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="10" id="MPe-EP-I1z"/>
                             <constraint firstItem="WpT-Ou-gzd" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="NnY-vv-Hhg"/>
                             <constraint firstAttribute="centerX" secondItem="uLj-sO-8mv" secondAttribute="centerX" id="Pv8-zk-Uo5"/>
                             <constraint firstAttribute="centerX" secondItem="0pc-fY-Lfm" secondAttribute="centerX" id="Y2S-Yj-XhP"/>
@@ -112,7 +104,7 @@
                             <constraint firstItem="uLj-sO-8mv" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="80" id="qMc-1g-PzE"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="0pc-fY-Lfm" secondAttribute="bottom" constant="20" id="seT-pU-2ch"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="j2E-ST-KRF" secondAttribute="bottom" constant="30" id="vvH-Is-uZA"/>
-                            <constraint firstItem="U1a-Xf-F2c" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="10" id="wSt-UQ-OLG"/>
+                            <constraint firstItem="U1a-Xf-F2c" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="wSt-UQ-OLG"/>
                             <constraint firstAttribute="trailing" secondItem="WpT-Ou-gzd" secondAttribute="trailing" id="xhL-BE-Dhu"/>
                             <constraint firstItem="rjN-My-iqm" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="yOU-80-key"/>
                             <constraint firstItem="WpT-Ou-gzd" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" id="zYI-5w-gVl"/>
@@ -123,7 +115,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="errorLabel" destination="uLj-sO-8mv" id="f6v-zP-5np"/>
-                        <outlet property="facesDetectedLabel" destination="D5p-aa-60b" id="dLr-aJ-HBo"/>
                         <outlet property="previewView" destination="rjN-My-iqm" id="i8W-JU-9vq"/>
                         <outlet property="shutterButton" destination="0pc-fY-Lfm" id="xwx-nt-dZo"/>
                         <outlet property="smallImageTakenView" destination="j2E-ST-KRF" id="a3W-Yn-GWo"/>
@@ -137,8 +128,8 @@
     </scenes>
     <resources>
         <image name="outline_square.png" width="800" height="730"/>
-        <image name="reverse_camera.png" width="120" height="96"/>
         <image name="shutter.png" width="300" height="300"/>
+        <image name="switch_camera_filled-100.png" width="100" height="100"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

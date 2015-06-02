@@ -26,7 +26,6 @@
 //IB Actions and Outlets
 @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
 @property (weak, nonatomic) IBOutlet UIButton *shutterButton;
-@property (weak, nonatomic) IBOutlet UILabel *facesDetectedLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *squareOutline;
 - (IBAction)savePhoto:(UIButton *)sender;
 - (IBAction)toggleCamera:(UIButton *)sender;
@@ -197,7 +196,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [self showFacesWithFeatures:features];
         [self showHelperMessage:features forVideoBox:clap orientation:curDeviceOrientation];
     });
 }
@@ -292,17 +290,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 #pragma mark View helpers
 
--(void) showFacesWithFeatures : (NSArray *)features {
-    NSUInteger facesDetected = features.count;
-    self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
-}
 
 
 - (void) showHelperMessage : (NSArray *) features forVideoBox:(CGRect)clap orientation:(UIDeviceOrientation)orientation {
 
     NSUInteger facesDetected = features.count;
     
-    self.facesDetectedLabel.text = [NSString stringWithFormat:@"%lu",facesDetected];
     self.errorLabel.backgroundColor = [UIColor redColor];
     
     [self.shutterButton setEnabled:NO];
