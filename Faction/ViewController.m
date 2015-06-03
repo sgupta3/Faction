@@ -438,7 +438,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     if([self.activeDevice hasFlash]) {
         if(self.isFlashActive) {
             //Flash is active.
-            [self.flashButton setBackgroundImage:[UIImage imageNamed:@"flash_disabled.png"] forState:UIControlStateNormal];
+            [self.flashButton setImage:[UIImage imageNamed:@"flash_disabled.png"] forState:UIControlStateNormal];
             if([self.activeDevice isFlashModeSupported:AVCaptureFlashModeOff]){
                 NSError *error = nil;
                 if([self.activeDevice lockForConfiguration:&error]){
@@ -449,7 +449,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             
         } else {
             //Flash is inactive
-            [self.flashButton setBackgroundImage:[UIImage imageNamed:@"flash.png"] forState:UIControlStateNormal];
+            [self.flashButton setImage:[UIImage imageNamed:@"flash.png"] forState:UIControlStateNormal];
             
             if([self.activeDevice isFlashModeSupported:AVCaptureFlashModeOn]){
                 NSError *error = nil;
