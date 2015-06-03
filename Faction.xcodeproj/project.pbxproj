@@ -15,6 +15,8 @@
 		341BEF4D1B163674006FB372 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 341BEF4B1B163674006FB372 /* LaunchScreen.xib */; };
 		341BEF591B163674006FB372 /* FactionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BEF581B163674006FB372 /* FactionTests.m */; };
 		341BEF631B164DB4006FB372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BEF621B164DB4006FB372 /* AVFoundation.framework */; };
+		34321A401B1F980E0032261C /* flash.png in Resources */ = {isa = PBXBuildFile; fileRef = 34321A3F1B1F980E0032261C /* flash.png */; };
+		34321A421B1F9C500032261C /* flash_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 34321A411B1F9C500032261C /* flash_disabled.png */; };
 		348F42851B1E37280087A166 /* Rotate Camera-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F42841B1E37280087A166 /* Rotate Camera-100.png */; };
 		348F42871B1E37A10087A166 /* Switch Camera-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F42861B1E37A10087A166 /* Switch Camera-100.png */; };
 		348F42891B1E39E50087A166 /* switch_camera_filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 348F42881B1E39E50087A166 /* switch_camera_filled-100.png */; };
@@ -49,6 +51,8 @@
 		341BEF571B163674006FB372 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		341BEF581B163674006FB372 /* FactionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FactionTests.m; sourceTree = "<group>"; };
 		341BEF621B164DB4006FB372 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		34321A3F1B1F980E0032261C /* flash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash.png; sourceTree = "<group>"; };
+		34321A411B1F9C500032261C /* flash_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_disabled.png; sourceTree = "<group>"; };
 		348F42841B1E37280087A166 /* Rotate Camera-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rotate Camera-100.png"; path = "../Rotate Camera-100.png"; sourceTree = "<group>"; };
 		348F42861B1E37A10087A166 /* Switch Camera-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Switch Camera-100.png"; sourceTree = "<group>"; };
 		348F42881B1E39E50087A166 /* switch_camera_filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "switch_camera_filled-100.png"; sourceTree = "<group>"; };
@@ -141,12 +145,14 @@
 		349E64A51B1C987D00C6FF72 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				34321A411B1F9C500032261C /* flash_disabled.png */,
 				348F428C1B1E46C10087A166 /* images.png */,
 				348F42841B1E37280087A166 /* Rotate Camera-100.png */,
 				348F428A1B1E40E90087A166 /* outline.png */,
 				348F42861B1E37A10087A166 /* Switch Camera-100.png */,
 				348F42881B1E39E50087A166 /* switch_camera_filled-100.png */,
 				D86C11EC1B1E896200AC81E5 /* outline_square.png */,
+				34321A3F1B1F980E0032261C /* flash.png */,
 				D86C11ED1B1E896200AC81E5 /* shutter.png */,
 			);
 			name = Images;
@@ -234,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				341BEF481B163674006FB372 /* Main.storyboard in Resources */,
+				34321A401B1F980E0032261C /* flash.png in Resources */,
 				D86C11EF1B1E896200AC81E5 /* shutter.png in Resources */,
 				348F42891B1E39E50087A166 /* switch_camera_filled-100.png in Resources */,
 				348F42871B1E37A10087A166 /* Switch Camera-100.png in Resources */,
@@ -242,6 +249,7 @@
 				348F42851B1E37280087A166 /* Rotate Camera-100.png in Resources */,
 				348F428B1B1E40E90087A166 /* outline.png in Resources */,
 				D86C11EE1B1E896200AC81E5 /* outline_square.png in Resources */,
+				34321A421B1F9C500032261C /* flash_disabled.png in Resources */,
 				341BEF4A1B163674006FB372 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

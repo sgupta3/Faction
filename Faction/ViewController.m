@@ -21,15 +21,22 @@
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, strong) CIDetector *faceDetector;
 @property (nonatomic,strong) UIImage *imageTaken;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (nonatomic, strong) AVCaptureDevice *activeDevice;
+@property (nonatomic) BOOL isFlashActive;
+
 
 //IB Actions and Outlets
 @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
 @property (weak, nonatomic) IBOutlet UIButton *shutterButton;
 @property (weak, nonatomic) IBOutlet UIImageView *squareOutline;
+@property (weak, nonatomic) IBOutlet UIButton *flashButton;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+
 - (IBAction)savePhoto:(UIButton *)sender;
 - (IBAction)toggleCamera:(UIButton *)sender;
 - (IBAction)takePhoto:(UIButton *)sender;
+- (IBAction)toggleFlash:(UIButton *)sender;
 
 @end
 
@@ -80,6 +87,7 @@ AVCaptureStillImageOutput *stillImageOutput;
         if ([d position] == desiredPosition) {
             device = d;
             self.isUsingFrontFacingCamera = YES;
+            [self.flashButton setHidden:YES];
             break;
         }
     }
@@ -90,6 +98,7 @@ AVCaptureStillImageOutput *stillImageOutput;
         device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     }
     
+    self.activeDevice = device;
     
     // May enable other features like auto-focusing, auto white balacing etc here.
     if([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]){
@@ -424,6 +433,37 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     }];
 }
 
+- (IBAction)toggleFlash:(UIButton *)sender {
+    
+    if([self.activeDevice hasFlash]) {
+        if(self.isFlashActive) {
+            //Flash is active.
+            [self.flashButton setBackgroundImage:[UIImage imageNamed:@"flash_disabled.png"] forState:UIControlStateNormal];
+            if([self.activeDevice isFlashModeSupported:AVCaptureFlashModeOff]){
+                NSError *error = nil;
+                if([self.activeDevice lockForConfiguration:&error]){
+                    [self.activeDevice setFlashMode:AVCaptureFlashModeOff];
+                    [self.activeDevice unlockForConfiguration];
+                }
+            }
+            
+        } else {
+            //Flash is inactive
+            [self.flashButton setBackgroundImage:[UIImage imageNamed:@"flash.png"] forState:UIControlStateNormal];
+            
+            if([self.activeDevice isFlashModeSupported:AVCaptureFlashModeOn]){
+                NSError *error = nil;
+                if([self.activeDevice lockForConfiguration:&error]){
+                    [self.activeDevice setFlashMode:AVCaptureFlashModeOn];
+                    [self.activeDevice unlockForConfiguration];
+                }
+            }
+
+        }
+        self.isFlashActive = !self.isFlashActive;
+    }
+}
+
 
 - (IBAction)savePhoto:(UIButton *)sender {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -441,10 +481,14 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 
 - (IBAction)toggleCamera:(UIButton *)sender {
     AVCaptureDevicePosition desiredPosition;
-    if (self.isUsingFrontFacingCamera)
+    if (self.isUsingFrontFacingCamera) {
+        [self.flashButton setHidden:NO];
         desiredPosition = AVCaptureDevicePositionBack;
-    else
+    }
+    else {
+        [self.flashButton setHidden:YES];
         desiredPosition = AVCaptureDevicePositionFront;
+    }
     
     for (AVCaptureDevice *d in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
         if ([d position] == desiredPosition) {
@@ -453,6 +497,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             for (AVCaptureInput *oldInput in [[self.previewLayer session] inputs]) {
                 [[self.previewLayer session] removeInput:oldInput];
             }
+            self.activeDevice = d;
             [[self.previewLayer session] addInput:input];
             [[self.previewLayer session] commitConfiguration];
             break;
