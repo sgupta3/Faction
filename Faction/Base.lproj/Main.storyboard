@@ -114,7 +114,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="errorLabel" destination="uLj-sO-8mv" id="f6v-zP-5np"/>
+                        <outlet property="messageLabel" destination="uLj-sO-8mv" id="mjd-Ds-x4U"/>
                         <outlet property="previewView" destination="rjN-My-iqm" id="i8W-JU-9vq"/>
                         <outlet property="shutterButton" destination="0pc-fY-Lfm" id="xwx-nt-dZo"/>
                         <outlet property="smallImageTakenView" destination="j2E-ST-KRF" id="a3W-Yn-GWo"/>

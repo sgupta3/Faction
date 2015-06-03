@@ -21,7 +21,7 @@
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
 @property (nonatomic, strong) CIDetector *faceDetector;
 @property (nonatomic,strong) UIImage *imageTaken;
-@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
 //IB Actions and Outlets
 @property (weak, nonatomic) IBOutlet UIButton *smallImageTakenView;
@@ -297,11 +297,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     NSUInteger facesDetected = features.count;
     
     [self.shutterButton setEnabled:NO];
-    self.errorLabel.textColor = [UIColor redColor];
+    self.messageLabel.textColor = [UIColor redColor];
     if(facesDetected == 0) {
-        self.errorLabel.text = @"No faces detected";
+        self.messageLabel.text = @"No faces detected";
     } else if(facesDetected > 1) {
-        self.errorLabel.text = @"Only 1 face allowed";
+        self.messageLabel.text = @"Only 1 face allowed";
     } else {
         
         for ( CIFaceFeature *ff in features ) {
@@ -309,16 +309,16 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             CGRect faceRect = [ff bounds];
             
             if(faceRect.size.width > 150 && faceRect.size.width < 300) {
-                self.errorLabel.textColor = [UIColor greenColor];
-                self.errorLabel.text = @"Perfect";
+                self.messageLabel.textColor = [UIColor greenColor];
+                self.messageLabel.text = @"Perfect";
                 [self.shutterButton setEnabled:YES];
                 [self showFaceTracker:features forVideoBox:clap orientation:orientation];
             }
             else {
                 if(faceRect.size.width < 150) {
-                    self.errorLabel.text = @"Too far";
+                    self.messageLabel.text = @"Too far";
                 } else {
-                    self.errorLabel.text = @"Too close";
+                    self.messageLabel.text = @"Too close";
                 }
             }
         }
