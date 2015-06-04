@@ -98,8 +98,6 @@ AVCaptureStillImageOutput *stillImageOutput;
         device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     }
     
-    self.activeDevice = device;
-    
     // May enable other features like auto-focusing, auto white balacing etc here.
     if([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]){
         NSError *error = nil;
@@ -108,6 +106,8 @@ AVCaptureStillImageOutput *stillImageOutput;
             [device unlockForConfiguration];
         }
     }
+    
+    self.activeDevice = device;
     
     NSError *error = nil;
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];

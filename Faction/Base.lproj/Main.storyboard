@@ -59,10 +59,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.69999999999999973" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8z5-Io-Gbj" userLabel="Flash">
-                                <rect key="frame" x="270" y="10" width="30" height="30"/>
+                                <rect key="frame" x="275" y="15" width="25" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="KOK-Pu-nbc"/>
-                                    <constraint firstAttribute="width" constant="30" id="rKh-F9-tYq"/>
+                                    <constraint firstAttribute="height" constant="25" id="KOK-Pu-nbc"/>
+                                    <constraint firstAttribute="width" constant="25" id="rKh-F9-tYq"/>
                                 </constraints>
                                 <state key="normal" image="flash_disabled.png"/>
                                 <connections>
@@ -95,8 +95,8 @@
                                     <action selector="savePhoto:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5Kj-y6-FcI"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.89999999999999991" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLj-sO-8mv" userLabel="Status label">
-                                <rect key="frame" x="160" y="25" width="0.0" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.89999999999999991" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uLj-sO-8mv" userLabel="Status label">
+                                <rect key="frame" x="139" y="25" width="45" height="19"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -104,7 +104,8 @@
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="uLj-sO-8mv" secondAttribute="centerX" id="0zN-9D-Bo7"/>
+                            <constraint firstAttribute="centerX" secondItem="uLj-sO-8mv" secondAttribute="centerX" constant="-0.5" id="2Ap-Id-O79"/>
+                            <constraint firstItem="uLj-sO-8mv" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="25" id="7dk-Yh-pf8"/>
                             <constraint firstAttribute="trailing" secondItem="8z5-Io-Gbj" secondAttribute="trailing" constant="20" id="MBx-Vk-UAw"/>
                             <constraint firstItem="U1a-Xf-F2c" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="10" id="MPe-EP-I1z"/>
                             <constraint firstItem="WpT-Ou-gzd" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="NnY-vv-Hhg"/>
@@ -112,9 +113,8 @@
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="rjN-My-iqm" secondAttribute="bottom" id="YsX-VZ-dj2"/>
                             <constraint firstItem="rjN-My-iqm" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" id="fGc-xW-vb5"/>
                             <constraint firstAttribute="trailing" secondItem="rjN-My-iqm" secondAttribute="trailing" id="fxs-iw-bMV"/>
-                            <constraint firstItem="uLj-sO-8mv" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="25" id="gvv-Dg-FNJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="j2E-ST-KRF" secondAttribute="trailing" constant="20" id="jvL-8f-Vto"/>
-                            <constraint firstItem="8z5-Io-Gbj" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="10" id="qJ6-lk-sWW"/>
+                            <constraint firstItem="8z5-Io-Gbj" firstAttribute="top" secondItem="pwb-Y6-iE4" secondAttribute="bottom" constant="15" id="qJ6-lk-sWW"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="0pc-fY-Lfm" secondAttribute="bottom" constant="20" id="seT-pU-2ch"/>
                             <constraint firstItem="l4c-nf-j8Y" firstAttribute="top" secondItem="j2E-ST-KRF" secondAttribute="bottom" constant="30" id="vvH-Is-uZA"/>
                             <constraint firstItem="U1a-Xf-F2c" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="wSt-UQ-OLG"/>
